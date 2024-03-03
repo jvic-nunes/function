@@ -6,6 +6,10 @@ e desacelerar.
 Vamos então aos passos para completar o exercício!!!
 a) Criar o objeto carro com apenas as duas propriedades (neste primeiro passo não é necessário criar os métodos):
 
+const carro = {
+
+}
+
 ligado (boolean) : que de deverá ser inicializada com valor false (desligado).
 velocidade (number) : que deverá ser inicializada com valor 0 (zero).
 b) Acrescentar neste objeto carro um membro chamado ligar que possuirá como valor uma função que implementará 
@@ -54,30 +58,57 @@ Acelerar o carro
 Desacelerar o carro
 As mensagens que deverão ser exibidas no console são: */
 
-const contaBancaria = {
-    nome: "Maria",
-    saldo: 0,
-    historicos: []
-};
 
-function depositar(valor) {
-    contaBancaria.saldo += valor;
-    contaBancaria.historicos.push({
-        tipo: "Depósito",
-        valor: valor
-    });
-    return `Depósito de R$${valor / 100} realizado para o cliente: ${contaBancaria.nome}.`;
-}
-
-function sacar(valor) {
-    if (valor > contaBancaria.saldo) {
-        return `Saldo insuficiente para o saque de: ${contaBancaria.nome}.`;
+const carro = {
+    ligado: false,
+    velocidade: 0,
+    ligar: function () {
+        if (carro.ligado){
+            console.log("Este carro já está ligado")
+        } else {
+            this.ligado = true
+        }
+        console.log("carro " + (this.ligado ? "ligado" : "desligado") + ". velocidade é " + this.velocidade );
+    },
+    desligar: function () {
+        if(!this.ligado) {
+            console.log("Este carro já está desligado")
+        } else {
+            this.ligado = false
+        }
+        console.log("carro " + (this.ligado ? "ligado" : "desligado") + ". velocidade é " +  this.velocidade );
+    },
+    acelerar: function () {
+        console.log("ligado", this.ligado);
+        if (!this.ligado) {
+            console.log("Não é possível acelerar um carro desligado");
+        } else {
+            this.velocidade += 10
+        }
+        console.log("carro " + (this.ligado ? "ligado" : "desligado") + ". velocidade é " + this.velocidade );
+    },
+    desacelerar: function () {
+        if (!this.ligado) {
+            console.log("Não é possivel desacelerar um carro desligado");
+        } else {
+            this.velocidade -= 10
+        }
+        console.log("carro " + (this.ligado ? "ligado" : "desligado") + ". velocidade é " + this.velocidade );
     }
-    contaBancaria.saldo -= valor;
-    contaBancaria.historicos.push({
-        tipo: "Saque",
-        valor: valor
-    });
-    return `Saque de R$${valor / 100} realizado para o cliente: ${contaBancaria.nome}.`;
 }
+
+carro.desligar();
+carro.ligar();   
+carro.ligar();  
+carro.acelerar();
+carro.acelerar(); 
+carro.desacelerar();
+carro.desligar();
+carro.acelerar();
+carro.desacelerar()
+
+
+
+
+
 

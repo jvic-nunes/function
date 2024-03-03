@@ -2,6 +2,7 @@
 
 a) Declare uma função de nome imprimirResumoDoCarrinho que tenha apenas um parâmetro chamado carrinho.
 
+
 b) Sabendo que o parâmetro carrinho será sempre um objeto com o seguinte formato:
 
 const carrinho = {
@@ -24,13 +25,15 @@ const carrinho = {
 Implemente a função imprimirResumoDoCarrinho de modo que, ao receber um objeto como este como parâmetro,
 o resultado seja o seguinte.
 
+
+
 Cliente: Guido Bernal
 Total de itens: 5 itens
 Total a pagar: R$ 190,00
 Para testar sua implementação, chame a função imprimirResumoDoCarrinho passando o objeto carrinho exemplificado 
 acima como argumento.
 
-c) Modifique a questão anterior para que a função imprimirResumoDoCarrinhoseja um método do objeto carrinho 
+c) Modifique a questão anterior para que a função imprimirResumoDoCarrinho seja um método do objeto carrinho 
 (sendo assim, cabe mudar o nome do método para apenas imprimirResumo) ao invés de uma função isolada.
 
 d) Declare uma nova função isolada chamada addProdutoAoCarrinho que tenha dois argumentos: carrinho e produto.
@@ -120,3 +123,115 @@ Sempre no máximo um deles será aplicado - o que for mais vantajoso para o clie
 Para o exemplo da letra B, o desconto deverá ser de R$ 30,00.
 
 Para o exemplo da letra E, com 8 itens, o desconto deverá ser de R$ 44,00 */
+
+
+
+const carrinho = {
+    nomeDoCliente: "Guido Bernal",
+    produtos: [
+        {
+            id: 1,
+            nome: "Camisa",
+            qtd: 3,
+            precoUnit: 3000
+        },
+        {
+            id: 2,
+            nome: "Bermuda",
+            qtd: 2,
+            precoUnit: 5000
+        }
+    ],
+    calcularTotalDeItens: function() {
+        return this.produtos.reduce((total, produto) => total + produto.qtd, 0)
+    },
+    calcularTotalAPagar: function() {
+        return this.produtos.reduce((total, produto) => total + produto.qtd * produto.precoUnit, 0)
+    },
+    imprimirResumo: function() {
+        let somaItens = this.calcularTotalDeItens();
+        let somaPagar = this.calcularTotalAPagar();
+            
+        console.log(carrinho.nomeDoCliente);
+        console.log(`${somaItens} itens`);
+        console.log(`Total a pagar: ${(somaPagar/100).toFixed(2)}`)
+        
+        },
+    imprimirDetalhes: function() {
+        console.log(`Cliente: ${this.nomeDoCliente}`)
+        for (let i = 0; i < carrinho.produtos.length; i++) {
+            const produtinho = this.produtos[i]
+            console.log(`${i + 1} - ${produtinho.nome} - ${produtinho.qtd} - ${(produtinho.qtd * produtinho.precoUnit/100).toFixed(2)}`);
+        }
+    },
+    calcularDesconto: function() {      
+        let desconto = 0
+        let desconto10Porcento = 0
+
+        if(this.produtos.length > 4) {
+            let maisBarato = this.produtos[0];
+            this.produtos.forEach(produto => {
+            if (produto.precoUnit < maisBarato.precoUnit) {
+                maisBarato = produto
+            }
+            });
+            desconto = maisBarato.precoUnit
+        }
+        let valorFinal = this.calcularTotalAPagar ()
+        if(valorFinal > 10000) {
+            desconto10Porcento = valorFinal * (10/100);
+        }
+        if (desconto10Porcento > desconto ) {
+            desconto = desconto10Porcento
+        } 
+        if (desconto < valorFinal) {
+            console.log(desconto/100);
+        } else {
+            console.log(valorFinal/100);
+        }
+    }
+    
+}
+carrinho.imprimirDetalhes();
+carrinho.imprimirResumo();
+carrinho.calcularDesconto();
+
+function addProdutoAoCarrinho(carrinho, produto){
+    let produtoExistente = false
+
+    for(let i = 0; i < carrinho.produtos.length; i++) {
+        if(carrinho.produtos[i].id === produto.id) {
+            produtoExistente = carrinho.produtos[i] 
+        }
+    }
+    if (produtoExistente) {
+        produtoExistente.qtd += produto.qtd
+    } else {
+        carrinho.produtos.push(produto);
+    }
+
+}
+ 
+
+
+
+/* TESTE DAS FUNÇÕES:
+const novaBermuda = {
+    id: 2,
+    nome: "Bermuda",
+    qtd: 3,
+    precoUnit: 5000
+}
+
+addProdutoAoCarrinho(carrinho, novaBermuda);
+carrinho.imprimirResumo();
+
+const novoTenis = {
+    id: 3,
+    nome: "Tenis",
+    qtd: 1,
+    precoUnit: 10000
+}
+
+addProdutoAoCarrinho(carrinho, novoTenis);
+carrinho.imprimirResumo(); */

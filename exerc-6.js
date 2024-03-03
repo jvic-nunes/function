@@ -66,3 +66,59 @@ Extrato de Maria - Saldo: R$50
 Histórico:
 Depósito de $100
 Saque de $50 */
+
+ const contaBancaria = {
+    nome: "Maria",
+    saldo: 0,
+    historicos: [],
+    depositar: function(valor) {
+        if (typeof valor === 'number' && valor > 0) {
+            this.saldo += valor //saldo = valor + saldo
+            this.historicos.push(`Foi depositado o valor de ${valor/100} reais`)
+        } else {
+            console.log("Valor depositado de maneira errada :C");
+        }
+    }
+};
+contaBancaria.depositar()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function depositar(valor) {
+    contaBancaria.saldo += valor;
+    contaBancaria.historicos.push({
+        tipo: "Depósito",
+        valor: valor
+    });
+    return `Depósito de R$${valor / 100} realizado para o cliente: ${contaBancaria.nome}.`;
+}
+
+function sacar(valor) {
+    if (valor > contaBancaria.saldo) {
+        return `Saldo insuficiente para o saque de: ${contaBancaria.nome}.`;
+    }
+    contaBancaria.saldo -= valor;
+    contaBancaria.historicos.push({
+        tipo: "Saque",
+        valor: valor
+    });
+    return `Saque de R$${valor / 100} realizado para o cliente: ${contaBancaria.nome}.`;
+}
+ 
